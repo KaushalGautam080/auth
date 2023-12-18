@@ -15,8 +15,8 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    emailController.text = "eve.holt@reqres.in";
-    passwordController.text = "cityslicka";
+    emailController.text = "superadmin";
+    passwordController.text = "admin@123";
   }
 
   @override
@@ -64,19 +64,20 @@ class HomePageState extends State<HomePage> {
             ElevatedButton(
               onPressed: () async {
                 FormData form = FormData.fromMap({
-                  "email": emailController,
-                  "password": passwordController,
+                  "username": emailController.text,
+                  "password": passwordController.text,
                 });
                 final response = await dio.post(
-                  "https://reqres.in/api/login",
+                  "https://rscheme.pagodalabs.com.np/auth/login/",
                   data: form,
                   options: Options(
-                    validateStatus: (status) => status == 200,
+                    responseType: ResponseType.json,
+                    validateStatus: (status) => status == 200 || status == 400 ,
                   ),
                 );
                 try {
                   if (response.statusCode == 200) {
-                    print(response);
+                    print(response.data);
                   }
                 } catch (e) {
                   print(e.toString());
